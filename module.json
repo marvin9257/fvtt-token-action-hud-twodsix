@@ -1,11 +1,12 @@
 {
-  "id": "token-action-hud-template",
-  "title": "Token Action HUD Template",
-  "description": "Token Action HUD is a repositionable HUD of actions for a selected token",
+  "id": "token-action-hud-twodsix",
+  "title": "Token Action HUD for Twodsix",
+  "description": "A module to integrate Twodsix system with Token Action HUD module",
   "authors": [
     {
-      "name": "Larkinabout",
-      "url": "https://github.com/Larkinabout"
+      "name": "Marvin",
+      "discord": "marvin9257#8916",
+      "url": "https://github.com/marvin9257"
     }
   ],
   "url": "This is auto replaced",
@@ -13,7 +14,7 @@
   "version": "This is auto replaced",
   "compatibility": {
     "minimum": "11",
-    "verified": "11.300"
+    "verified": "11.307"
   },
   "esmodules": [
     "./scripts/init.js"
@@ -33,12 +34,12 @@
   "relationships": {
     "systems": [
       {
-        "id": "template",
+        "id": "twodsix",
         "type": "system",
         "compatibility": [
           {
-            "minimum": "1.0.0",
-            "verified": "1.0.0"
+            "minimum": "3.8.0",
+            "verified": "3.8.0"
           }
         ]
       }
@@ -64,7 +65,7 @@
   "socket": false,
   "manifest": "This is auto replaced",
   "download": "This is auto replaced",
-  "readme": "https://github.com/Larkinabout/fvtt-token-action-hud-template#readme",
+  "readme": "https://github.com/marvin9257/fvtt-token-action-hud-twodsix#readme",
   "protected": false,
   "coreTranslation": false,
   "library": false
