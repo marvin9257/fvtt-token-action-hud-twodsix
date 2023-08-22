@@ -24,7 +24,9 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
                     { ...groups.augment, nestId: 'inventory_augment' },
                     { ...groups.equipment, nestId: 'inventory_equipment' },
                     { ...groups.consumable, nestId: 'inventory_consumable' },
-                    { ...groups.tool, nestId: 'inventory_tool' }
+                    { ...groups.tool, nestId: 'inventory_tool' },
+                    { ...groups.backpack, nestId: 'inventory_backpack' },
+                    { ...groups.ship, nestId: 'inventory_ship' }
                 ]
             },
             {
@@ -33,6 +35,14 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
                 name: coreModule.api.Utils.i18n('tokenActionHud.twodsix.skills'),
                 groups: [
                     { ...groups.skills, nestId: 'skills_skills' }
+                ]
+            },
+            {
+                nestId: 'characteristics',
+                id: 'characteristics',
+                name: coreModule.api.Utils.i18n('tokenActionHud.twodsix.characteristics'),
+                groups: [
+                    { ...groups.characteristics, nestId: 'characteristics_characteristics' }
                 ]
             },
             {

@@ -65,10 +65,13 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
             const inventoryMap = new Map()
 
             for (const [itemId, itemData] of this.items) {
-                const type = itemData.type
+                let type = itemData.type
                 const equipped = (itemData.system.equipped === 'equipped' || ['skills', 'trait', 'spells'].includes(itemData.type))
 
                 if (equipped || this.displayUnequipped) {
+                    if (!equipped) {
+                        type = itemData.system.equipped
+                    }
                     const typeMap = inventoryMap.get(type) ?? new Map()
                     typeMap.set(itemId, itemData)
                     inventoryMap.set(type, typeMap)
@@ -100,8 +103,8 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
 
                 // TAH Core method to add actions to the action list
                 this.addActions(actions, groupData)
+                console.log(actions, groupData)
             }
-            console.log(this)
         }
 
         /**
@@ -109,8 +112,29 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
          * @private
          */
         async #buildCharacteristics () {
+            const actionTypeId = 'characteristics'
             const groupData = { id: 'characteristics', type: 'system' }
-            const charShown = game.settings.get('twodsix', 'showAlternativeCharacteristics')
+            // const charShown = game.settings.get('twodsix', 'showAlternativeCharacteristics')
+
+            // Get actions
+            const actions = []
+            for (const char in this.actor.system.characteristics) {
+                const id = char
+                const name = this.actor.system.characteristics[char].displayShortLabel
+                const actionTypeName = coreModule.api.Utils.i18n(ACTION_TYPE[actionTypeId])
+                const listName = `${actionTypeName ? `${actionTypeName}: ` : ''}${name}`
+                const encodedValue = [actionTypeId, id].join(this.delimiter)
+
+                actions.push({
+                    id,
+                    name,
+                    listName,
+                    encodedValue
+                })
+            }
+            // TAH Core method to add actions to the action list
+            this.addActions(actions, groupData)
+            console.log(actions, groupData)
         }
     }
 })

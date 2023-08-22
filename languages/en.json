@@ -3,6 +3,7 @@
     "twodsix": {
       "armor": "Armor",
       "augment": "Augments",
+      "backpack": "Backpack",
       "characteristics": "Characteristics",
       "containers": "Containers",
       "consumable": "Consumable",
@@ -10,6 +11,7 @@
       "Inventory": "Inventory",
       "item": "Item",
       "weapons": "Weapons",
+      "ship": "Ship",
       "skills": "Skills",
       "spell": "Spells",
       "tool": "Tools",

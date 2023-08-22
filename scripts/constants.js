@@ -22,7 +22,7 @@ export const REQUIRED_CORE_MODULE_VERSION = '1.4'
  */
 export const ACTION_TYPE = {
     item: 'tokenActionHud.twodsix.item',
-    characteristic: 'tokenActionHud.twodsix.characteristic',
+    characteristics: 'tokenActionHud.twodsix.characteristics',
     utility: 'tokenActionHud.utility'
 }
 
@@ -34,8 +34,9 @@ export const GROUP = {
     augment: { id: 'augment', name: 'tokenActionHud.twodsix.augment', type: 'system' },
     characteristics: { id: 'characteristics', name: 'tokenActionHud.twodsix.characteristics', type: 'system' },
     equipment: { id: 'equipment', name: 'tokenActionHud.twodsix.equipment', type: 'system' },
-    consumable: { id: 'consumable', name: 'tokenActionHud.twodsix.consumables', type: 'system' },
-    containers: { id: 'containers', name: 'tokenActionHud.twodsix.containers', type: 'system' },
+    consumable: { id: 'consumable', name: 'tokenActionHud.twodsix.consumable', type: 'system' },
+    backpack: { id: 'backpack', name: 'tokenActionHud.twodsix.backpack', type: 'system' },
+    ship: { id: 'ship', name: 'tokenActionHud.twodsix.ship', type: 'system' },
     skills: { id: 'skills', name: 'tokenActionHud.twodsix.skills', type: 'system' },
     spell: { id: 'spell', name: 'tokenActionHud.twodsix.spell', type: 'system' },
     treasure: { id: 'treasure', name: 'tokenActionHud.twodsix.treasure', type: 'system' },
@@ -53,10 +54,11 @@ export const GROUP = {
 export const ITEM_TYPE = {
     armor: { groupId: 'armor' },
     augment: { groupId: 'augment' },
-    backpack: { groupId: 'containers' },
-    consumable: { groupId: 'consumables' },
+    backpack: { groupId: 'backpack' },
+    consumable: { groupId: 'consumable' },
     computer: { groupId: 'equipment' },
     equipment: { groupId: 'equipment' },
+    ship: { groupId: 'ship' },
     skills: { groupId: 'skills' },
     spell: { groupId: 'spell' },
     treasure: { groupId: 'treasure' },
