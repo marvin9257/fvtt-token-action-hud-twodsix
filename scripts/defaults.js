@@ -17,14 +17,38 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
             {
                 nestId: 'inventory',
                 id: 'inventory',
-                name: coreModule.api.Utils.i18n('Template.Inventory'),
+                name: coreModule.api.Utils.i18n('tokenActionHud.twodsix.Inventory'),
                 groups: [
                     { ...groups.weapons, nestId: 'inventory_weapons' },
                     { ...groups.armor, nestId: 'inventory_armor' },
+                    { ...groups.augment, nestId: 'inventory_augment' },
                     { ...groups.equipment, nestId: 'inventory_equipment' },
-                    { ...groups.consumables, nestId: 'inventory_consumables' },
-                    { ...groups.containers, nestId: 'inventory_containers' },
-                    { ...groups.treasure, nestId: 'inventory_treasure' }
+                    { ...groups.consumable, nestId: 'inventory_consumable' },
+                    { ...groups.tool, nestId: 'inventory_tool' }
+                ]
+            },
+            {
+                nestId: 'skills',
+                id: 'skills',
+                name: coreModule.api.Utils.i18n('tokenActionHud.twodsix.skills'),
+                groups: [
+                    { ...groups.skills, nestId: 'skills_skills' }
+                ]
+            },
+            {
+                nestId: 'trait',
+                id: 'trait',
+                name: coreModule.api.Utils.i18n('tokenActionHud.twodsix.trait'),
+                groups: [
+                    { ...groups.trait, nestId: 'trait_trait' }
+                ]
+            },
+            {
+                nestId: 'spell',
+                id: 'spell',
+                name: coreModule.api.Utils.i18n('tokenActionHud.twodsix.spell'),
+                groups: [
+                    { ...groups.spell, nestId: 'spell_spell' }
                 ]
             },
             {

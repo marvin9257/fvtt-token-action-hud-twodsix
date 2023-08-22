@@ -30,11 +30,11 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
                 this.items = items
             }
 
-            if (this.actorType === 'character') {
+            if (['traveller', 'robot', 'animal'].includes(this.actorType)) {
                 this.#buildCharacterActions()
-            } else if (!this.actor) {
+            } /* else if (!this.actor) {
                 this.#buildMultipleTokenActions()
-            }
+            } */
         }
 
         /**
@@ -43,6 +43,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
          */
         #buildCharacterActions () {
             this.#buildInventory()
+            this.#buildCharacteristics()
         }
 
         /**
@@ -65,7 +66,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
 
             for (const [itemId, itemData] of this.items) {
                 const type = itemData.type
-                const equipped = itemData.equipped
+                const equipped = (itemData.system.equipped === 'equipped' || ['skills', 'trait', 'spells'].includes(itemData.type))
 
                 if (equipped || this.displayUnequipped) {
                     const typeMap = inventoryMap.get(type) ?? new Map()
@@ -100,6 +101,16 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
                 // TAH Core method to add actions to the action list
                 this.addActions(actions, groupData)
             }
+            console.log(this)
+        }
+
+        /**
+         * Build characteritics
+         * @private
+         */
+        async #buildCharacteristics () {
+            const groupData = { id: 'characteristics', type: 'system' }
+            const charShown = game.settings.get('twodsix', 'showAlternativeCharacteristics')
         }
     }
 })
