@@ -14,7 +14,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
          * Called by Token Action HUD Core
          * @override
          * @param {array} groupIds
-         */a
+         */
         async buildSystemActions (groupIds) {
             // Set actor and token variables
             this.actors = (!this.actor) ? this._getActors() : [this.actor]
@@ -92,10 +92,12 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
                     const actionTypeName = coreModule.api.Utils.i18n(ACTION_TYPE[actionTypeId])
                     const listName = `${actionTypeName ? `${actionTypeName}: ` : ''}${name}`
                     const encodedValue = [actionTypeId, id].join(this.delimiter)
+                    const img = itemData.img
 
                     return {
                         id,
                         name,
+                        img,
                         listName,
                         encodedValue
                     }
@@ -103,12 +105,11 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
 
                 // TAH Core method to add actions to the action list
                 this.addActions(actions, groupData)
-                console.log(actions, groupData)
             }
         }
 
         /**
-         * Build characteritics
+         * Build characteristics
          * @private
          */
         async #buildCharacteristics () {
@@ -134,7 +135,6 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
             }
             // TAH Core method to add actions to the action list
             this.addActions(actions, groupData)
-            console.log(actions, groupData)
         }
     }
 })
