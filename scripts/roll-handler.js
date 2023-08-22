@@ -28,7 +28,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
                 return this.doRenderItem(this.actor, actionId)
             }
 
-            const knownCharacters = ['character']
+            const knownCharacters = ['traveller', 'animal', 'robot']
 
             // If single actor is selected
             if (this.actor) {
@@ -60,6 +60,9 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
             case 'item':
                 this.#handleItemAction(event, actor, actionId)
                 break
+            case 'characteristics':
+                this.#handleCharacteristicAction(event, actor, actionId)
+                break
             case 'utility':
                 this.#handleUtilityAction(token, actionId)
                 break
@@ -73,9 +76,27 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
          * @param {object} actor    The actor
          * @param {string} actionId The action id
          */
-        #handleItemAction (event, actor, actionId) {
+        #handleItemAction (_event, actor, actionId) {
             const item = actor.items.get(actionId)
-            item.toChat(event)
+            if (item.type === 'trait' || item.type === 'spell') {
+                const picture = item.img
+                const capType = item.type.capitalize()
+                const msg = `<div style="display: inline-flex;"><img src="${picture}" alt="" class="chat-image"></img><span style="align-self: center; text-align: center; padding-left: 1ch;"><strong>${capType}: ${item.name}</strong></span></div><br>${item.system['description']}`;
+                ChatMessage.create({ content: msg, speaker: ChatMessage.getSpeaker({ actor: this.actor }) })
+            } else {
+                item.skillRoll(true)
+            }
+        }
+
+        /**
+         * Handle characteristic action
+         * @private
+         * @param {object} event    The event
+         * @param {object} actor    The actor
+         * @param {string} actionId The action id
+         */
+        #handleCharacteristicAction (event, actor, actionId) {
+            actor.characteristicRoll({ rollModifiers: { characteristic: actor.system.characteristics[actionId].shortLabel } }, true)
         }
 
         /**
