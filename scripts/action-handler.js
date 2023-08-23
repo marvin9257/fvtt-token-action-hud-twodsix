@@ -125,16 +125,47 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
                 const actionTypeName = coreModule.api.Utils.i18n(ACTION_TYPE[actionTypeId])
                 const listName = `${actionTypeName ? `${actionTypeName}: ` : ''}${name}`
                 const encodedValue = [actionTypeId, id].join(this.delimiter)
-
-                actions.push({
-                    id,
-                    name,
-                    listName,
-                    encodedValue
-                })
+                if (shouldDisplayChar(id)) {
+                    actions.push({
+                        id,
+                        name,
+                        listName,
+                        encodedValue
+                    })
+                }
             }
             // TAH Core method to add actions to the action list
             this.addActions(actions, groupData)
         }
     }
 })
+
+function shouldDisplayChar (char) {
+    const charsShown = game.settings.get('twodsix', 'showAlternativeCharacteristics')
+    switch (char) {
+    case 'strength':
+        return true
+    case 'dexterity':
+        return true
+    case 'endurance':
+        return true
+    case 'intelligence':
+        return true
+    case 'education':
+        return true
+    case 'socialStanding':
+        return true
+    case 'psionicStrength':
+        return charsShown !== 'alternate'
+    case 'alternative1':
+        return charsShown !== 'base'
+    case 'alternative2':
+        return charsShown !== 'base'
+    case 'lifeblood':
+        return false
+    case 'stamina':
+        return false
+    default:
+        return false
+    }
+}
