@@ -7,8 +7,8 @@ import { MODULE } from './constants.js'
  */
 export function register (coreUpdate) {
     game.settings.register(MODULE.ID, 'displayUnequipped', {
-        name: game.i18n.localize('tokenActionHud.template.settings.displayUnequipped.name'),
-        hint: game.i18n.localize('tokenActionHud.template.settings.displayUnequipped.hint'
+        name: game.i18n.localize('tokenActionHud.twodsix.settings.displayUnequipped.name'),
+        hint: game.i18n.localize('tokenActionHud.twodsix.settings.displayUnequipped.hint'
         ),
         scope: 'client',
         config: true,

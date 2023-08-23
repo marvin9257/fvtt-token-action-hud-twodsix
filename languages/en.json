@@ -1,13 +1,21 @@
 {
   "tokenActionHud": {
-    "template": {
+    "twodsix": {
       "armor": "Armor",
+      "augment": "Augments",
+      "backpack": "Backpack",
+      "characteristics": "Characteristics",
       "containers": "Containers",
-      "consumables": "Consumables",
+      "consumable": "Consumable",
       "equipment": "Equipment",
-      "inventory": "Inventory",
+      "Inventory": "Inventory",
       "item": "Item",
       "weapons": "Weapons",
+      "ship": "Ship",
+      "skills": "Skills",
+      "spell": "Spells",
+      "tool": "Tools",
+      "trait": "Traits",
       "treasure": "Treasure",
       "settings": {
         "displayUnequipped": {

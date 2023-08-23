@@ -2,7 +2,7 @@
  * Module-based constants
  */
 export const MODULE = {
-    ID: 'token-action-hud-template'
+    ID: 'fvtt-token-action-hud-twodsix'
 }
 
 /**
@@ -21,7 +21,8 @@ export const REQUIRED_CORE_MODULE_VERSION = '1.4'
  * Action types
  */
 export const ACTION_TYPE = {
-    item: 'tokenActionHud.template.item',
+    item: 'tokenActionHud.twodsix.item',
+    characteristics: 'tokenActionHud.twodsix.characteristics',
     utility: 'tokenActionHud.utility'
 }
 
@@ -29,14 +30,21 @@ export const ACTION_TYPE = {
  * Groups
  */
 export const GROUP = {
-    armor: { id: 'armor', name: 'tokenActionHud.template.armor', type: 'system' },
-    equipment: { id: 'equipment', name: 'tokenActionHud.template.equipment', type: 'system' },
-    consumables: { id: 'consumables', name: 'tokenActionHud.template.consumables', type: 'system' },
-    containers: { id: 'containers', name: 'tokenActionHud.template.containers', type: 'system' },
-    treasure: { id: 'treasure', name: 'tokenActionHud.template.treasure', type: 'system' },
-    weapons: { id: 'weapons', name: 'tokenActionHud.template.weapons', type: 'system' },
+    armor: { id: 'armor', name: 'tokenActionHud.twodsix.armor', type: 'system' },
+    augment: { id: 'augment', name: 'tokenActionHud.twodsix.augment', type: 'system' },
+    characteristics: { id: 'characteristics', name: 'tokenActionHud.twodsix.characteristics', type: 'system' },
+    equipment: { id: 'equipment', name: 'tokenActionHud.twodsix.equipment', type: 'system' },
+    consumable: { id: 'consumable', name: 'tokenActionHud.twodsix.consumable', type: 'system' },
+    backpack: { id: 'backpack', name: 'tokenActionHud.twodsix.backpack', type: 'system' },
+    ship: { id: 'ship', name: 'tokenActionHud.twodsix.ship', type: 'system' },
+    skills: { id: 'skills', name: 'tokenActionHud.twodsix.skills', type: 'system' },
+    spell: { id: 'spell', name: 'tokenActionHud.twodsix.spell', type: 'system' },
+    treasure: { id: 'treasure', name: 'tokenActionHud.twodsix.treasure', type: 'system' },
+    weapons: { id: 'weapons', name: 'tokenActionHud.twodsix.weapons', type: 'system' },
     combat: { id: 'combat', name: 'tokenActionHud.combat', type: 'system' },
     token: { id: 'token', name: 'tokenActionHud.token', type: 'system' },
+    tool: { id: 'tool', name: 'tokenActionHud.twodsix.tool', type: 'system' },
+    trait: { id: 'trait', name: 'tokenActionHud.twodsix.trait', type: 'system' },
     utility: { id: 'utility', name: 'tokenActionHud.utility', type: 'system' }
 }
 
@@ -45,9 +53,34 @@ export const GROUP = {
  */
 export const ITEM_TYPE = {
     armor: { groupId: 'armor' },
-    backpack: { groupId: 'containers' },
-    consumable: { groupId: 'consumables' },
+    augment: { groupId: 'augment' },
+    backpack: { groupId: 'backpack' },
+    consumable: { groupId: 'consumable' },
+    computer: { groupId: 'equipment' },
     equipment: { groupId: 'equipment' },
+    ship: { groupId: 'ship' },
+    skills: { groupId: 'skills' },
+    spell: { groupId: 'spell' },
     treasure: { groupId: 'treasure' },
+    trait: { groupId: 'trait' },
+    tool: { groupId: 'equipment' },
+    junk: { groupId: 'equipment' },
     weapon: { groupId: 'weapons' }
+}
+
+/**
+ * Characteristics
+ */
+export const CHARACTERISTICS = {
+    strength: 'STR',
+    dexterity: 'DEX',
+    endurance: 'END',
+    intelligence: 'INT',
+    education: 'EDU',
+    socialStanding: 'SOC',
+    psionicStrength: 'PSI',
+    stamina: 'STA',
+    lifeblood: 'LFB',
+    alternative1: 'ALT1',
+    alternative2: 'ALT2'
 }

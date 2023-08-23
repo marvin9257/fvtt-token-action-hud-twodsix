@@ -14,7 +14,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
          * Called by Token Action HUD Core
          * @override
          * @param {array} groupIds
-         */a
+         */
         async buildSystemActions (groupIds) {
             // Set actor and token variables
             this.actors = (!this.actor) ? this._getActors() : [this.actor]
@@ -30,11 +30,11 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
                 this.items = items
             }
 
-            if (this.actorType === 'character') {
+            if (['traveller', 'robot', 'animal'].includes(this.actorType)) {
                 this.#buildCharacterActions()
-            } else if (!this.actor) {
+            } /* else if (!this.actor) {
                 this.#buildMultipleTokenActions()
-            }
+            } */
         }
 
         /**
@@ -43,6 +43,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
          */
         #buildCharacterActions () {
             this.#buildInventory()
+            this.#buildCharacteristics()
         }
 
         /**
@@ -64,10 +65,13 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
             const inventoryMap = new Map()
 
             for (const [itemId, itemData] of this.items) {
-                const type = itemData.type
-                const equipped = itemData.equipped
+                let type = itemData.type
+                const equipped = (itemData.system.equipped === 'equipped' || ['skills', 'trait', 'spells'].includes(itemData.type))
 
                 if (equipped || this.displayUnequipped) {
+                    if (!equipped) {
+                        type = itemData.system.equipped
+                    }
                     const typeMap = inventoryMap.get(type) ?? new Map()
                     typeMap.set(itemId, itemData)
                     inventoryMap.set(type, typeMap)
@@ -88,10 +92,12 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
                     const actionTypeName = coreModule.api.Utils.i18n(ACTION_TYPE[actionTypeId])
                     const listName = `${actionTypeName ? `${actionTypeName}: ` : ''}${name}`
                     const encodedValue = [actionTypeId, id].join(this.delimiter)
+                    const img = itemData.img
 
                     return {
                         id,
                         name,
+                        img,
                         listName,
                         encodedValue
                     }
@@ -100,6 +106,35 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
                 // TAH Core method to add actions to the action list
                 this.addActions(actions, groupData)
             }
+        }
+
+        /**
+         * Build characteristics
+         * @private
+         */
+        async #buildCharacteristics () {
+            const actionTypeId = 'characteristics'
+            const groupData = { id: 'characteristics', type: 'system' }
+            // const charShown = game.settings.get('twodsix', 'showAlternativeCharacteristics')
+
+            // Get actions
+            const actions = []
+            for (const char in this.actor.system.characteristics) {
+                const id = char
+                const name = this.actor.system.characteristics[char].displayShortLabel
+                const actionTypeName = coreModule.api.Utils.i18n(ACTION_TYPE[actionTypeId])
+                const listName = `${actionTypeName ? `${actionTypeName}: ` : ''}${name}`
+                const encodedValue = [actionTypeId, id].join(this.delimiter)
+
+                actions.push({
+                    id,
+                    name,
+                    listName,
+                    encodedValue
+                })
+            }
+            // TAH Core method to add actions to the action list
+            this.addActions(actions, groupData)
         }
     }
 })
