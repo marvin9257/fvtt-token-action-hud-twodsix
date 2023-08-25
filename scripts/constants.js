@@ -22,7 +22,7 @@ export const REQUIRED_CORE_MODULE_VERSION = '1.4'
  */
 export const ACTION_TYPE = {
     item: 'tokenActionHud.twodsix.item',
-    characteristics: 'tokenActionHud.twodsix.characteristics',
+    characteristics: 'TWODSIX.Damage.Characteristics',
     utility: 'tokenActionHud.utility'
 }
 
@@ -30,21 +30,20 @@ export const ACTION_TYPE = {
  * Groups
  */
 export const GROUP = {
-    armor: { id: 'armor', name: 'tokenActionHud.twodsix.armor', type: 'system' },
-    augment: { id: 'augment', name: 'tokenActionHud.twodsix.augment', type: 'system' },
-    characteristics: { id: 'characteristics', name: 'tokenActionHud.twodsix.characteristics', type: 'system' },
-    equipment: { id: 'equipment', name: 'tokenActionHud.twodsix.equipment', type: 'system' },
-    consumable: { id: 'consumable', name: 'tokenActionHud.twodsix.consumable', type: 'system' },
-    backpack: { id: 'backpack', name: 'tokenActionHud.twodsix.backpack', type: 'system' },
-    ship: { id: 'ship', name: 'tokenActionHud.twodsix.ship', type: 'system' },
-    skills: { id: 'skills', name: 'tokenActionHud.twodsix.skills', type: 'system' },
-    spell: { id: 'spell', name: 'tokenActionHud.twodsix.spell', type: 'system' },
-    treasure: { id: 'treasure', name: 'tokenActionHud.twodsix.treasure', type: 'system' },
-    weapons: { id: 'weapons', name: 'tokenActionHud.twodsix.weapons', type: 'system' },
+    armor: { id: 'armor', name: 'TYPES.Item.armor', type: 'system' },
+    augment: { id: 'augment', name: 'TYPES.Item.augmentPl', type: 'system' },
+    characteristics: { id: 'characteristics', name: 'TWODSIX.Damage.Characteristics', type: 'system' },
+    equipment: { id: 'equipment', name: 'TYPES.Item.equipmentPl', type: 'system' },
+    consumable: { id: 'consumable', name: 'TYPES.Item.consumablePl', type: 'system' },
+    backpack: { id: 'backpack', name: 'TWODSIX.Actor.Items.LocationState.backpack', type: 'system' },
+    ship: { id: 'ship', name: 'TWODSIX.Actor.Items.LocationState.ship', type: 'system' },
+    skills: { id: 'skills', name: 'TYPES.Item.skillPl', type: 'system' },
+    spell: { id: 'spell', name: 'TYPES.Item.spellPl', type: 'system' },
+    weapons: { id: 'weapons', name: 'TYPES.Item.weaponPl', type: 'system' },
     combat: { id: 'combat', name: 'tokenActionHud.combat', type: 'system' },
     token: { id: 'token', name: 'tokenActionHud.token', type: 'system' },
-    tool: { id: 'tool', name: 'tokenActionHud.twodsix.tool', type: 'system' },
-    trait: { id: 'trait', name: 'tokenActionHud.twodsix.trait', type: 'system' },
+    tool: { id: 'tool', name: 'TYPES.Item.toolPl', type: 'system' },
+    trait: { id: 'trait', name: 'TYPES.Item.traitPl', type: 'system' },
     utility: { id: 'utility', name: 'tokenActionHud.utility', type: 'system' }
 }
 

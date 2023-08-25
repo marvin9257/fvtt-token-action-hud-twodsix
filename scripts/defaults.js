@@ -17,7 +17,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
             {
                 nestId: 'inventory',
                 id: 'inventory',
-                name: coreModule.api.Utils.i18n('tokenActionHud.twodsix.Inventory'),
+                name: coreModule.api.Utils.i18n('TWODSIX.Items.Items.Inventory'),
                 groups: [
                     { ...groups.weapons, nestId: 'inventory_weapons' },
                     { ...groups.armor, nestId: 'inventory_armor' },
@@ -32,7 +32,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
             {
                 nestId: 'skills',
                 id: 'skills',
-                name: coreModule.api.Utils.i18n('tokenActionHud.twodsix.skills'),
+                name: coreModule.api.Utils.i18n('TYPES.Item.skillPl'),
                 groups: [
                     { ...groups.skills, nestId: 'skills_skills' }
                 ]
@@ -40,7 +40,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
             {
                 nestId: 'characteristics',
                 id: 'characteristics',
-                name: coreModule.api.Utils.i18n('tokenActionHud.twodsix.characteristics'),
+                name: coreModule.api.Utils.i18n('TWODSIX.Damage.Characteristics'),
                 groups: [
                     { ...groups.characteristics, nestId: 'characteristics_characteristics' }
                 ]
@@ -48,7 +48,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
             {
                 nestId: 'trait',
                 id: 'trait',
-                name: coreModule.api.Utils.i18n('tokenActionHud.twodsix.trait'),
+                name: coreModule.api.Utils.i18n('TYPES.Item.traitPl'),
                 groups: [
                     { ...groups.trait, nestId: 'trait_trait' }
                 ]
@@ -56,7 +56,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
             {
                 nestId: 'spell',
                 id: 'spell',
-                name: coreModule.api.Utils.i18n('tokenActionHud.twodsix.spell'),
+                name: coreModule.api.Utils.i18n('TYPES.Item.spellPl'),
                 groups: [
                     { ...groups.spell, nestId: 'spell_spell' }
                 ]
