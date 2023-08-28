@@ -13,6 +13,18 @@ export function register (coreUpdate) {
         scope: 'client',
         config: true,
         type: Boolean,
+        default: true,
+        onChange: (value) => {
+            coreUpdate(value)
+        }
+    })
+    game.settings.register(MODULE.ID, 'sortByType', {
+        name: game.i18n.localize('tokenActionHud.twodsix.settings.sortByType.name'),
+        hint: game.i18n.localize('tokenActionHud.twodsix.settings.sortByType.hint'
+        ),
+        scope: 'client',
+        config: true,
+        type: Boolean,
         default: false,
         onChange: (value) => {
             coreUpdate(value)

@@ -121,12 +121,12 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
             // Get actions
             const actions = []
             for (const char in this.actor.system.characteristics) {
-                const id = char
-                const name = this.actor.system.characteristics[char].displayShortLabel
-                const actionTypeName = coreModule.api.Utils.i18n(ACTION_TYPE[actionTypeId])
-                const listName = `${actionTypeName ? `${actionTypeName}: ` : ''}${name}`
-                const encodedValue = [actionTypeId, id].join(this.delimiter)
-                if (shouldDisplayChar(id)) {
+                if (shouldDisplayChar(char)) {
+                    const id = char
+                    const name = this.actor.system.characteristics[char].displayShortLabel
+                    const actionTypeName = coreModule.api.Utils.i18n(ACTION_TYPE[actionTypeId])
+                    const listName = `${actionTypeName ? `${actionTypeName}: ` : ''}${name}`
+                    const encodedValue = [actionTypeId, id].join(this.delimiter)
                     actions.push({
                         id,
                         name,
