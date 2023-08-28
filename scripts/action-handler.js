@@ -22,6 +22,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
 
             // Settings
             this.displayUnequipped = Utils.getSetting('displayUnequipped')
+            this.sortByType = Utils.getSetting('sortByType')
 
             // Set items variable
             if (this.actor) {
@@ -69,7 +70,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
                 const equipped = (itemData.system.equipped === 'equipped' || ['skills', 'trait', 'spells'].includes(itemData.type))
 
                 if (equipped || this.displayUnequipped) {
-                    if (!equipped) {
+                    if (!equipped && !this.sortByType) {
                         type = itemData.system.equipped
                     }
                     const typeMap = inventoryMap.get(type) ?? new Map()
