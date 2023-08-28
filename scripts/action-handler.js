@@ -22,6 +22,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
 
             // Settings
             this.displayUnequipped = Utils.getSetting('displayUnequipped')
+            this.sortByType = Utils.getSetting('sortByType')
 
             // Set items variable
             if (this.actor) {
@@ -69,7 +70,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
                 const equipped = (itemData.system.equipped === 'equipped' || ['skills', 'trait', 'spells'].includes(itemData.type))
 
                 if (equipped || this.displayUnequipped) {
-                    if (!equipped) {
+                    if (!equipped && !this.sortByType) {
                         type = itemData.system.equipped
                     }
                     const typeMap = inventoryMap.get(type) ?? new Map()
@@ -120,12 +121,12 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
             // Get actions
             const actions = []
             for (const char in this.actor.system.characteristics) {
-                const id = char
-                const name = this.actor.system.characteristics[char].displayShortLabel
-                const actionTypeName = coreModule.api.Utils.i18n(ACTION_TYPE[actionTypeId])
-                const listName = `${actionTypeName ? `${actionTypeName}: ` : ''}${name}`
-                const encodedValue = [actionTypeId, id].join(this.delimiter)
-                if (shouldDisplayChar(id)) {
+                if (shouldDisplayChar(char)) {
+                    const id = char
+                    const name = this.actor.system.characteristics[char].displayShortLabel
+                    const actionTypeName = coreModule.api.Utils.i18n(ACTION_TYPE[actionTypeId])
+                    const listName = `${actionTypeName ? `${actionTypeName}: ` : ''}${name}`
+                    const encodedValue = [actionTypeId, id].join(this.delimiter)
                     actions.push({
                         id,
                         name,
