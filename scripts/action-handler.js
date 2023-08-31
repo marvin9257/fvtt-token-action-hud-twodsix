@@ -67,7 +67,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
 
             for (const [itemId, itemData] of this.items) {
                 let type = itemData.type
-                const equipped = (itemData.system.equipped === 'equipped' || ['skills', 'trait', 'spells'].includes(itemData.type))
+                const equipped = (itemData.system.equipped === 'equipped' || ['skills', 'trait', 'spell'].includes(itemData.type))
 
                 if (equipped || this.displayUnequipped) {
                     if (!equipped && !this.sortByType) {
