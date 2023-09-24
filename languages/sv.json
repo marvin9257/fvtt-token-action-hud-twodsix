@@ -1,0 +1,17 @@
+{
+  "tokenActionHud": {
+    "twodsix": {
+      "item": "Item",
+      "settings": {
+        "displayUnequipped": {
+          "hint": "Choose whether to display unequipped items on the HUD",
+          "name": "Display Unequipped"
+        },
+        "sortByType": {
+          "hint": "Choose whether to group unequipped items by type (e.g. weapon) or by location (e.g. backpack)",
+          "name": "Grouping of Unequipped Items"
+        }
+      }
+    }
+  }
+}
