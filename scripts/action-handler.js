@@ -33,9 +33,9 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
 
             if (['traveller', 'robot', 'animal'].includes(this.actorType)) {
                 this.#buildCharacterActions()
-            } /* else if (!this.actor) {
-                this.#buildMultipleTokenActions()
-            } */
+            } else if (this.actorType === 'ship') {
+                this.#buildShipPositions()
+            }
         }
 
         /**
@@ -138,6 +138,36 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
             // TAH Core method to add actions to the action list
             this.addActions(actions, groupData)
         }
+
+        /**
+        * Build ship positions
+        * @private
+        */
+        async #buildShipPositions () {
+            const actionTypeId = 'ship_position'
+            const parentGroupData = { id: 'shipPosition', type: 'system' }
+            // Get positions
+            for (const position of this.actor.itemTypes.ship_position) {
+                const newPosition = {
+                    id: position.id,
+                    name: position.name,
+                    listName: `Group: ${position.name}`,
+                    type: 'system-derived'
+                }
+                await this.addGroup(newPosition, parentGroupData)
+                const actions = []
+                for (const shipActionId of Object.keys(position.system.actions)) {
+                    const action = position.system.actions[shipActionId]
+                    actions.push({
+                        id: shipActionId,
+                        name: action.name,
+                        img: action.icon,
+                        encodedValue: [actionTypeId, position.id, shipActionId].join(this.delimiter)
+                    })
+                }
+                await this.addActions(actions, newPosition)
+            }
+        }
     }
 })
 
@@ -169,4 +199,14 @@ function shouldDisplayChar (char) {
     default:
         return false
     }
+}
+
+/**
+ * Function to return a camel case version of a string
+ * @param {string} string to be converted
+ * @returns {object} a camel case version of input string
+ * @export
+ */
+export function camelCase (string) {
+    return string.trim().toLowerCase().replace(/\W+(.)/g, (m, chr) => chr.toUpperCase())
 }
