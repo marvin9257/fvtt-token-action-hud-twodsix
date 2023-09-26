@@ -11,7 +11,7 @@
   ],
   "url": "https://github.com/marvin9257/fvtt-token-action-hud-twodsix",
   "flags": {},
-  "version": "1.2.0",
+  "version": "1.2.1",
   "compatibility": {
     "minimum": "11",
     "verified": "11.309"
