@@ -2,7 +2,7 @@
 
 # Token Action HUD for Twodsix
 
-Token Action HUD is a repositionable HUD of actions for a selected token.  This module provides the configuration for the Twodsix system.
+Token Action HUD is a repositionable HUD of actions for a selected token.  This module provides the configuration for the Twodsix system. Now with support for ship actions.
 
 # Features
 - Make rolls directly from the HUD instead of opening your character sheet.
