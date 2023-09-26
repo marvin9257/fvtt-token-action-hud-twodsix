@@ -1,5 +1,4 @@
 import { GROUP } from './constants.js'
-
 /**
  * Default layout and groups
  */
@@ -59,6 +58,14 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
                 name: coreModule.api.Utils.i18n('TYPES.Item.spellPl'),
                 groups: [
                     { ...groups.spell, nestId: 'spell_spell' }
+                ]
+            },
+            {
+                nestId: 'shipActions',
+                id: 'shipActions',
+                name: 'Ship Actions',
+                groups: [
+                    { ...groups.shipPosition, nestId: 'shipActions_shipPosition' }
                 ]
             },
             {

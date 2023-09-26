@@ -23,7 +23,8 @@ export const REQUIRED_CORE_MODULE_VERSION = '1.4'
 export const ACTION_TYPE = {
     item: 'tokenActionHud.twodsix.item',
     characteristics: 'TWODSIX.Damage.Characteristics',
-    utility: 'tokenActionHud.utility'
+    utility: 'tokenActionHud.utility',
+    shipPosition: 'TYPES.Item.ship_position'
 }
 
 /**
@@ -44,7 +45,9 @@ export const GROUP = {
     token: { id: 'token', name: 'tokenActionHud.token', type: 'system' },
     tool: { id: 'tool', name: 'TYPES.Item.toolPl', type: 'system' },
     trait: { id: 'trait', name: 'TYPES.Item.traitPl', type: 'system' },
-    utility: { id: 'utility', name: 'tokenActionHud.utility', type: 'system' }
+    utility: { id: 'utility', name: 'tokenActionHud.utility', type: 'system' },
+    shipPosition: { id: 'shipPosition', name: 'TYPES.Item.ship_positionPl', type: 'system' },
+    shipActions: { id: 'shipActions', name: 'Ship Actions', type: 'system' }
 }
 
 /**
@@ -64,7 +67,8 @@ export const ITEM_TYPE = {
     trait: { groupId: 'trait' },
     tool: { groupId: 'equipment' },
     junk: { groupId: 'equipment' },
-    weapon: { groupId: 'weapons' }
+    weapon: { groupId: 'weapons' },
+    shipPosition: { groupId: 'shipPosition' }
 }
 
 /**

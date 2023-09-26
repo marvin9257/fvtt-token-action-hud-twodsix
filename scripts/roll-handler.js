@@ -16,34 +16,39 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
         async doHandleActionEvent (event, encodedValue) {
             const payload = encodedValue.split('|')
 
-            if (payload.length !== 2) {
+            if (payload.length < 2) {
                 super.throwInvalidValueErr()
             }
 
             const actionTypeId = payload[0]
             const actionId = payload[1]
 
-            const renderable = ['item']
+            const renderable = ['item', 'ship_position']
 
             if (renderable.includes(actionTypeId) && this.isRenderItem()) {
                 return this.doRenderItem(this.actor, actionId)
             }
 
-            const knownCharacters = ['traveller', 'animal', 'robot']
+            if (actionTypeId === 'ship_position') {
+                const subActionId = payload[2]
+                await this.#handleShipAction(event, this.actor, actionId, subActionId)
+            } else {
+                const knownCharacters = ['traveller', 'animal', 'robot']
 
-            // If single actor is selected
-            if (this.actor) {
-                await this.#handleAction(event, this.actor, this.token, actionTypeId, actionId)
-                return
-            }
+                // If single actor is selected
+                if (this.actor) {
+                    await this.#handleAction(event, this.actor, this.token, actionTypeId, actionId)
+                    return
+                }
 
-            const controlledTokens = canvas.tokens.controlled
-                .filter((token) => knownCharacters.includes(token.actor?.type))
+                const controlledTokens = canvas.tokens.controlled
+                    .filter((token) => knownCharacters.includes(token.actor?.type))
 
-            // If multiple actors are selected
-            for (const token of controlledTokens) {
-                const actor = token.actor
-                await this.#handleAction(event, actor, token, actionTypeId, actionId)
+                // If multiple actors are selected
+                for (const token of controlledTokens) {
+                    const actor = token.actor
+                    await this.#handleAction(event, actor, token, actionTypeId, actionId)
+                }
             }
         }
 
@@ -98,8 +103,46 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
          * @param {object} actor    The actor
          * @param {string} actionId The action id
          */
-        #handleCharacteristicAction (event, actor, actionId) {
+        #handleCharacteristicAction (_event, actor, actionId) {
             actor.characteristicRoll({ rollModifiers: { characteristic: actor.system.characteristics[actionId].shortLabel } }, true)
+        }
+
+        /**
+         * Handle characteristic action
+         * @private
+         * @param {object} event
+         * @param {object} ship    The ship
+         * @param {string} positionId The ship position id
+         * @param {string} actionId The action id
+         */
+        async #handleShipAction (event, ship, positionId, actionId) {
+            const shipPosition = ship.items.get(positionId)
+            const action = shipPosition?.system?.actions[actionId]
+            if (action) {
+                let actor = game.user.character ?? shipPosition.system.actors?.[0]
+                if (!actor) {
+                    const actorId = Object.keys(ship.system.shipPositionActorIds).find(key => JSON.stringify(ship.system.shipPositionActorIds[key]) === JSON.stringify(positionId))
+                    if (actorId) {
+                        actor = game.actors.get(actorId)
+                    }
+                    if (!actor) {
+                        ui.notifications.warn(game.i18n.localize('TWODSIX.Ship.NoActorsForAction'))
+                        return
+                    }
+                }
+
+                const component = ship.items.find(item => item.id === action.component)
+                const extra = {
+                    actor,
+                    ship,
+                    event,
+                    component,
+                    actionName: action.name,
+                    positionName: shipPosition?.name ?? '',
+                    diceModifier: ''
+                }
+                ship.doShipAction(action, extra)
+            }
         }
 
         /**
