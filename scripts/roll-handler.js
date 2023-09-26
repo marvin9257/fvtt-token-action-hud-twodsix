@@ -126,6 +126,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
                         actor = game.actors.get(actorId)
                     }
                     if (!actor) {
+                        ui.notifications.warn(game.i18n.localize('TWODSIX.Ship.NoActorsForAction'))
                         return
                     }
                 }
