@@ -34,7 +34,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
             if (['traveller', 'robot', 'animal'].includes(this.actorType)) {
                 this.#buildCharacterActions()
             } else if (this.actorType === 'ship') {
-                this.#buildShipPositions()
+                await this.#buildShipPositions()
             }
         }
 
@@ -105,7 +105,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
                 })
 
                 // TAH Core method to add actions to the action list
-                this.addActions(actions, groupData)
+                await this.addActions(actions, groupData)
             }
         }
 
@@ -136,7 +136,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
                 }
             }
             // TAH Core method to add actions to the action list
-            this.addActions(actions, groupData)
+            await this.addActions(actions, groupData)
         }
 
         /**
