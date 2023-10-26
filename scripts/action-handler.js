@@ -187,7 +187,7 @@ function shouldDisplayChar (char) {
     case 'socialStanding':
         return true
     case 'psionicStrength':
-        return charsShown !== 'alternate'
+        return !['alternate', 'core'].includes(charsShown)
     case 'alternative1':
         return charsShown !== 'base'
     case 'alternative2':
