@@ -189,9 +189,9 @@ function shouldDisplayChar (char) {
     case 'psionicStrength':
         return !['alternate', 'core'].includes(charsShown)
     case 'alternative1':
-        return charsShown !== 'base'
+        return !['base', 'core'].includes(charsShown)
     case 'alternative2':
-        return charsShown !== 'base'
+        return !['base', 'core'].includes(charsShown)
     case 'lifeblood':
         return false
     case 'stamina':
