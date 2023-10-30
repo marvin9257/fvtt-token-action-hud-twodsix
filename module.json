@@ -22,6 +22,7 @@
   "scripts": [
   ],
   "styles": [
+    "./styles/tah-template-style.css"
   ],
   "languages": [
     {

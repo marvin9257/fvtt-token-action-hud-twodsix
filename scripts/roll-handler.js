@@ -7,8 +7,8 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
      */
     RollHandler = class RollHandler extends coreModule.api.RollHandler {
         /**
-         * Handle action event
-         * Called by Token Action HUD Core when an action event is triggered
+         * Handle action click
+         * Called by Token Action HUD Core when an action event is left or right-clicked
          * @override
          * @param {object} event        The event
          * @param {string} encodedValue The encoded value
@@ -51,6 +51,24 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
                 }
             }
         }
+
+        /**
+         * Handle action hover
+         * Called by Token Action HUD Core when an action is hovered on or off
+         * @override
+         * @param {object} event        The event
+         * @param {string} encodedValue The encoded value
+         */
+        async handleActionHover (event, encodedValue) {}
+
+        /**
+         * Handle group click
+         * Called by Token Action HUD Core when a group is right-clicked while the HUD is locked
+         * @override
+         * @param {object} event The event
+         * @param {object} group The group
+         */
+        async handleGroupClick (event, group) {}
 
         /**
          * Handle action
