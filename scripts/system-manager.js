@@ -1,6 +1,7 @@
 // System Module Imports
 import { ActionHandler } from './action-handler.js'
 import { RollHandler as Core } from './roll-handler.js'
+import { MODULE } from './constants.js'
 import { DEFAULTS } from './defaults.js'
 import * as systemSettings from './settings.js'
 
@@ -15,7 +16,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
          * Returns an instance of the ActionHandler to Token Action HUD Core
          * Called by Token Action HUD Core
          * @override
-         * @returns {ActionHandler} The ActionHandler instance
+         * @returns {class} The ActionHandler instance
          */
         getActionHandler () {
             return new ActionHandler()
@@ -39,7 +40,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
          * Called by Token Action HUD Core
          * @override
          * @param {string} rollHandlerId The roll handler ID
-         * @returns {rollHandler}        The RollHandler instance
+         * @returns {class}        The RollHandler instance
          */
         getRollHandler (rollHandlerId) {
             let rollHandler
@@ -53,6 +54,15 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
         }
 
         /**
+         * Returns the default layout and groups to Token Action HUD Core
+         * Called by Token Action HUD Core
+         * @returns {object} The default layout and groups
+         */
+        async registerDefaults () {
+            return DEFAULTS
+        }
+
+        /**
          * Register Token Action HUD system module settings
          * Called by Token Action HUD Core
          * @override
@@ -63,12 +73,20 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
         }
 
         /**
-         * Returns the default layout and groups to Token Action HUD Core
+         * Returns styles to Token Action HUD Core
          * Called by Token Action HUD Core
-         * @returns {object} The default layout and groups
+         * @override
+         * @returns {object} The TAH system styles
          */
-        async registerDefaults () {
-            return DEFAULTS
+        registerStyles () {
+            return {
+                template: {
+                    class: 'tah-style-template-style', // The class to add to first DIV element
+                    file: 'tah-template-style', // The file without the css extension
+                    moduleId: MODULE.ID, // The module ID
+                    name: 'Template Style' // The name to display in the Token Action HUD Core 'Style' module setting
+                }
+            }
         }
     }
 })
