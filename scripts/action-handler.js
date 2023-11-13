@@ -115,7 +115,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
          * @returns {object}
          */
         _getActors () {
-            return this.actors[0] ?? undefined
+            return this.actors?.[0]
         }
 
         /**
