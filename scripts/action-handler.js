@@ -110,6 +110,15 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
         }
 
         /**
+         * Return first selected actor when multiple are selected - kludge fix for not handling multiple actors
+         * @private
+         * @returns {object}
+         */
+        _getActors () {
+            return this.actors?.[0]
+        }
+
+        /**
          * Build characteristics
          * @private
          */
