@@ -14,7 +14,7 @@
   "version": "1.3.0",
   "compatibility": {
     "minimum": "11",
-    "verified": "11.314"
+    "verified": "11.315"
   },
   "esmodules": [
     "./scripts/init.js"
