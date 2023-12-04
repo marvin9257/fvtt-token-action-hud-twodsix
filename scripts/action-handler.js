@@ -59,7 +59,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
          * Build inventory
          * @private
          */
-        async #buildInventory () {
+        #buildInventory () {
             if (this.items.size === 0) return
 
             const actionTypeId = 'item'
@@ -105,7 +105,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
                 })
 
                 // TAH Core method to add actions to the action list
-                await this.addActions(actions, groupData)
+                this.addActions(actions, groupData)
             }
         }
 
@@ -122,7 +122,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
          * Build characteristics
          * @private
          */
-        async #buildCharacteristics () {
+        #buildCharacteristics () {
             const actionTypeId = 'characteristics'
             const groupData = { id: 'characteristics', type: 'system' }
             // const charShown = game.settings.get('twodsix', 'showAlternativeCharacteristics')
@@ -145,14 +145,14 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
                 }
             }
             // TAH Core method to add actions to the action list
-            await this.addActions(actions, groupData)
+            this.addActions(actions, groupData)
         }
 
         /**
         * Build ship positions
         * @private
         */
-        async #buildShipPositions () {
+        #buildShipPositions () {
             const actionTypeId = 'ship_position'
             const parentGroupData = { id: 'shipPosition', type: 'system' }
             // Get positions
@@ -163,7 +163,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
                     listName: `Group: ${position.name}`,
                     type: 'system-derived'
                 }
-                await this.addGroup(newPosition, parentGroupData)
+                this.addGroup(newPosition, parentGroupData)
                 const actions = []
                 for (const shipActionId of Object.keys(position.system.actions)) {
                     const action = position.system.actions[shipActionId]
@@ -174,7 +174,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
                         encodedValue: [actionTypeId, position.id, shipActionId].join(this.delimiter)
                     })
                 }
-                await this.addActions(actions, newPosition)
+                this.addActions(actions, newPosition)
             }
         }
     }
