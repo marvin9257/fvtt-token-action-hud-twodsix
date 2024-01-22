@@ -89,5 +89,6 @@ export const CHARACTERISTICS = {
     stamina: 'STA',
     lifeblood: 'LFB',
     alternative1: 'ALT1',
-    alternative2: 'ALT2'
+    alternative2: 'ALT2',
+    alternative3: 'ALT3'
 }

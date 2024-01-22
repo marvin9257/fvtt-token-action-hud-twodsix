@@ -201,6 +201,8 @@ function shouldDisplayChar (char) {
         return !['base', 'core'].includes(charsShown)
     case 'alternative2':
         return !['base', 'core'].includes(charsShown)
+    case 'alternative3':
+        return ['all'].includes(charsShown)
     case 'lifeblood':
         return false
     case 'stamina':
