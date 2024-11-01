@@ -57,7 +57,7 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
             {
                 nestId: 'psiAbility',
                 id: 'psiAbility',
-                name: coreModule.api.Utils.i18n('TYPES.Item.psiAbility'),
+                name: coreModule.api.Utils.i18n('TYPES.Item.psiAbilityPl'),
                 groups: [
                     { ...groups.psiAbility, nestId: 'psiAbility_psiAbility' }
                 ]
