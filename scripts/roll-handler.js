@@ -115,13 +115,14 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
                     await this.#sendToChat(item, true)
                 } else {
                     diceRoll = await item.skillRoll(true)
+                    if (!diceRoll) { return }
                 }
 
                 if (item.type === 'psiAbility') {
                     await item.processPsiAction(diceRoll?.effect ?? 0)
                 }
             } else {
-                item.skillRoll(true)
+                await item.skillRoll(true)
             }
         }
 
