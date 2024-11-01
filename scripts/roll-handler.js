@@ -100,18 +100,43 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
          * @param {object} actor    The actor
          * @param {string} actionId The action id
          */
-        #handleItemAction (_event, actor, actionId) {
+        async #handleItemAction (_event, actor, actionId) {
             const item = actor.items.get(actionId)
-            if (item.type === 'trait' || item.type === 'spell') {
-                const picture = item.img
-                const capType = item.type.capitalize()
-                const msg = `<div style="display: inline-flex;"><img src="${picture}" alt="" class="chat-image"></img><span style="align-self: center; text-align: center; padding-left: 1ch;"><strong>${capType}: ${item.name}</strong></span></div><br>${item.system.description}`
-                ChatMessage.create({ content: msg, speaker: ChatMessage.getSpeaker({ actor: this.actor }) })
+            if (item.type === 'trait') {
+                await this.#sendToChat(item, false)
             } else if (item.type === 'weapon') {
                 item.resolveUnknownAutoMode()
+            } else if (item.type === 'psiAbility') {
+                let diceRoll
+                if (item.actor?.system.characteristics.psionicStrength.current <= 0) {
+                    ui.notifications.warn(game.i18n.localize('TWODSIX.Warnings.NoPsiPoints'))
+                    return
+                } else if (!game.settings.get('twodsix', 'psiTalentsRequireRoll')) {
+                    await this.#sendToChat(item, true)
+                } else {
+                    diceRoll = await item.skillRoll(true)
+                }
+
+                if (item.type === 'psiAbility') {
+                    await item.processPsiAction(diceRoll?.effect ?? 0)
+                }
             } else {
                 item.skillRoll(true)
             }
+        }
+
+        /**
+         * Handle send to chat
+         * @private
+         * @param {object} item    an item
+         * @param {boolean} usedForRoll whether item used for roll
+         */
+        async #sendToChat (item, usedForRoll) {
+            const picture = item.img
+            const capType = game.i18n.localize(`TYPES.Item.${item.type}`).capitalize()
+            let msg = `<div style="display: inline-flex;"><img src="${picture}" alt="" class="chat-image"></img><span style="align-self: center; text-align: center; padding-left: 1ch;">`
+            msg += usedForRoll ? `${game.i18n.localize('TWODSIX.Items.Psionics.Used')} ${capType}: ${item.name}</span></div>` : `<strong>${capType}: ${item.name}</strong></span></div><br>${item.system.description}`
+            await ChatMessage.create({ content: msg, speaker: ChatMessage.getSpeaker({ actor: item.actor }) })
         }
 
         /**
