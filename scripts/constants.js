@@ -42,7 +42,7 @@ export const GROUP = {
     vehicle: { id: 'vehicle', name: 'TWODSIX.Actor.Items.LocationState.vehicle', type: 'system' },
     skills: { id: 'skills', name: 'TYPES.Item.skillPl', type: 'system' },
     spell: { id: 'spell', name: 'TYPES.Item.spellPl', type: 'system' },
-    psiAbility: { id: 'psiAbility', name: 'TYPES.Item.psiAbility', type: 'system' },
+    psiAbility: { id: 'psiAbility', name: 'TYPES.Item.psiAbilityPl', type: 'system' },
     weapons: { id: 'weapons', name: 'TYPES.Item.weaponPl', type: 'system' },
     combat: { id: 'combat', name: 'tokenActionHud.combat', type: 'system' },
     token: { id: 'token', name: 'tokenActionHud.token', type: 'system' },
