@@ -103,41 +103,12 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
         async #handleItemAction (_event, actor, actionId) {
             const item = actor.items.get(actionId)
             if (item.type === 'trait') {
-                await this.#sendToChat(item, false)
+                await item.sendDescriptionToChat(false)
             } else if (item.type === 'weapon') {
                 item.resolveUnknownAutoMode()
-            } else if (item.type === 'psiAbility') {
-                let diceRoll
-                if (item.actor?.system.characteristics.psionicStrength.current <= 0) {
-                    ui.notifications.warn(game.i18n.localize('TWODSIX.Warnings.NoPsiPoints'))
-                    return
-                } else if (!game.settings.get('twodsix', 'psiTalentsRequireRoll')) {
-                    await this.#sendToChat(item, true)
-                } else {
-                    diceRoll = await item.skillRoll(true)
-                    if (!diceRoll) { return }
-                }
-
-                if (item.type === 'psiAbility') {
-                    await item.processPsiAction(diceRoll?.effect ?? 0)
-                }
             } else {
-                await item.skillRoll(true)
+                await item.doSkillTalentRoll(true)
             }
-        }
-
-        /**
-         * Handle send to chat
-         * @private
-         * @param {object} item    an item
-         * @param {boolean} usedForRoll whether item used for roll
-         */
-        async #sendToChat (item, usedForRoll) {
-            const picture = item.img
-            const capType = game.i18n.localize(`TYPES.Item.${item.type}`).capitalize()
-            let msg = `<div style="display: inline-flex;"><img src="${picture}" alt="" class="chat-image"></img><span style="align-self: center; text-align: center; padding-left: 1ch;">`
-            msg += usedForRoll ? `${game.i18n.localize('TWODSIX.Items.Psionics.Used')} ${capType}: ${item.name}</span></div>` : `<strong>${capType}: ${item.name}</strong></span></div><br>${item.system.description}`
-            await ChatMessage.create({ content: msg, speaker: ChatMessage.getSpeaker({ actor: item.actor }) })
         }
 
         /**
