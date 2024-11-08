@@ -60,7 +60,7 @@
         "compatibility": [
           {
             "minimum": "4.20.0",
-            "verified": "5.10.0"
+            "verified": "5.11.0"
           }
         ]
       }

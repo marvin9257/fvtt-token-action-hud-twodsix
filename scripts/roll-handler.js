@@ -100,17 +100,14 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
          * @param {object} actor    The actor
          * @param {string} actionId The action id
          */
-        #handleItemAction (_event, actor, actionId) {
+        async #handleItemAction (_event, actor, actionId) {
             const item = actor.items.get(actionId)
-            if (item.type === 'trait' || item.type === 'spell') {
-                const picture = item.img
-                const capType = item.type.capitalize()
-                const msg = `<div style="display: inline-flex;"><img src="${picture}" alt="" class="chat-image"></img><span style="align-self: center; text-align: center; padding-left: 1ch;"><strong>${capType}: ${item.name}</strong></span></div><br>${item.system.description}`
-                ChatMessage.create({ content: msg, speaker: ChatMessage.getSpeaker({ actor: this.actor }) })
+            if (item.type === 'trait') {
+                await item.sendDescriptionToChat(false)
             } else if (item.type === 'weapon') {
                 item.resolveUnknownAutoMode()
             } else {
-                item.skillRoll(true)
+                await item.doSkillTalentRoll(true)
             }
         }
 
