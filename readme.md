@@ -1,6 +1,6 @@
 ![Downloads](https://img.shields.io/github/downloads/marvin9257/fvtt-token-action-hud-twodsix/latest/module.zip?color=2b82fc&label=DOWNLOADS&style=for-the-badge)
 
-# Token Action HUD for Twodsix
+# Token Action HUD for Twodsix (test)
 
 Token Action HUD is a repositionable HUD of actions for a selected token.  This module provides the configuration for the Twodsix system. Now with support for ship actions.
 
