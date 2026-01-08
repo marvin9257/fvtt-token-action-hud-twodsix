@@ -1,0 +1,97 @@
+name: Automated Release on PR Merge
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      test:
+        description: 'Run in test mode (dry run)'
+        required: false
+        default: 'false'
+
+jobs:
+  release:
+    if: github.event_name == 'push' || github.event.inputs.test != 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Bump version and create changelog
+        run: npx standard-version --release-as minor
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push version bump and tags
+        run: |
+          git push --follow-tags origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Extract version from package.json for URLs
+      - name: Get version from package.json
+        id: get_version
+        run: |
+          echo "version=$(node -p 'require(\"./package.json\").version')" >> $GITHUB_OUTPUT
+
+      # Set manifest and download URLs for this release
+      - name: Set manifest and download URLs
+        id: set_urls
+        run: |
+          echo "MANIFEST_URL=https://github.com/${{ github.repository }}/releases/latest/download/module.json" >> $GITHUB_ENV
+          echo "DOWNLOAD_URL=https://github.com/${{ github.repository }}/releases/download/v${{ steps.get_version.outputs.version }}/module.zip" >> $GITHUB_ENV
+
+      # Replace tokens in module.json
+      - name: Update module.json with release URLs
+        uses: cschleiden/replace-tokens@v1
+        with:
+          files: 'module.json'
+        env:
+          MANIFEST: ${{ env.MANIFEST_URL }}
+          DOWNLOAD: ${{ env.DOWNLOAD_URL }}
+
+      # Build module.zip
+      - name: Create Module Archive
+        run: |
+          zip --recurse-paths ./module.zip module.json readme.md LICENSE languages/ scripts/ styles/
+
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: v${{ steps.get_version.outputs.version }}
+          name: Release v${{ steps.get_version.outputs.version }}
+          bodyFile: CHANGELOG.md
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: './module.json, ./module.zip'
+          allowUpdates: true
+
+  test-release:
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.test == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: npm install
+      - name: Dry run standard-version
+        run: npx standard-version --dry-run
