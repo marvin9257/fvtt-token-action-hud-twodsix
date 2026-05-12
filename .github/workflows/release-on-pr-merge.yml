@@ -50,24 +50,6 @@ jobs:
             echo "should_release=true" >> $GITHUB_OUTPUT
           fi
 
-      # Set manifest and download URLs for this release
-      - name: Set manifest and download URLs
-        if: steps.check_tag.outputs.should_release == 'true'
-        id: set_urls
-        run: |
-          echo "MANIFEST_URL=https://github.com/${{ github.repository }}/releases/latest/download/module.json" >> $GITHUB_ENV
-          echo "DOWNLOAD_URL=https://github.com/${{ github.repository }}/releases/download/v${{ steps.get_version.outputs.version }}/module.zip" >> $GITHUB_ENV
-
-      # Replace tokens in module.json
-      - name: Update module.json with release URLs
-        if: steps.check_tag.outputs.should_release == 'true'
-        uses: cschleiden/replace-tokens@v1
-        with:
-          files: 'module.json'
-        env:
-          MANIFEST: ${{ env.MANIFEST_URL }}
-          DOWNLOAD: ${{ env.DOWNLOAD_URL }}
-
       # Build module.zip
       - name: Create Module Archive
         if: steps.check_tag.outputs.should_release == 'true'

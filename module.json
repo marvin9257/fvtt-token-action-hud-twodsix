@@ -83,8 +83,8 @@
     }
   },
   "socket": false,
-  "manifest": "#{MANIFEST}#",
-  "download": "#{DOWNLOAD}#",
+  "manifest": "https://raw.githubusercontent.com/marvin9257/fvtt-token-action-hud-twodsix/v1.6.0/module.json",
+  "download": "https://github.com/marvin9257/fvtt-token-action-hud-twodsix/releases/download/v1.6.0/module.zip",
   "readme": "https://github.com/marvin9257/fvtt-token-action-hud-twodsix#readme",
   "protected": false,
   "coreTranslation": false,
