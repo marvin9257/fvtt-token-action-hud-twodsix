@@ -1,7 +1,8 @@
 {
   "scripts": {
     "build": "rollup -c",
-    "dev": "rollup -wcm"
+    "dev": "rollup -wcm",
+    "release": "standard-version"
   },
   "devDependencies": {
     "@rollup/plugin-multi-entry": "^6.0.0",
@@ -11,6 +12,7 @@
     "eslint-plugin-n": "^15.3.0",
     "eslint-plugin-promise": "^6.1.0",
     "rollup": "^2.56.3",
-    "rollup-plugin-terser": "^7.0.2"
+    "rollup-plugin-terser": "^7.0.2",
+    "standard-version": "^9.5.0"
   }
 }

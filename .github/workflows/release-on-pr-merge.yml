@@ -1,0 +1,114 @@
+name: Automated Release on PR Merge
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      test:
+        description: 'Run in test mode (dry run)'
+        required: false
+        default: 'false'
+
+jobs:
+  release:
+    if: github.event_name == 'push' || github.event.inputs.test != 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Get version from module.json
+        id: get_version
+        run: |
+          VERSION=$(node -p 'require("./module.json").version || ""')
+          if [ -z "$VERSION" ]; then
+            echo "module.json must contain a version before releasing."
+            exit 1
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Check whether this version is already released
+        id: check_tag
+        run: |
+          if git rev-parse "refs/tags/v${{ steps.get_version.outputs.version }}" >/dev/null 2>&1; then
+            echo "Version v${{ steps.get_version.outputs.version }} is already tagged; skipping release."
+            echo "should_release=false" >> $GITHUB_OUTPUT
+          else
+            echo "should_release=true" >> $GITHUB_OUTPUT
+          fi
+
+      # Set manifest and download URLs for this release
+      - name: Set manifest and download URLs
+        if: steps.check_tag.outputs.should_release == 'true'
+        id: set_urls
+        run: |
+          echo "MANIFEST_URL=https://github.com/${{ github.repository }}/releases/latest/download/module.json" >> $GITHUB_ENV
+          echo "DOWNLOAD_URL=https://github.com/${{ github.repository }}/releases/download/v${{ steps.get_version.outputs.version }}/module.zip" >> $GITHUB_ENV
+
+      # Replace tokens in module.json
+      - name: Update module.json with release URLs
+        if: steps.check_tag.outputs.should_release == 'true'
+        uses: cschleiden/replace-tokens@v1
+        with:
+          files: 'module.json'
+        env:
+          MANIFEST: ${{ env.MANIFEST_URL }}
+          DOWNLOAD: ${{ env.DOWNLOAD_URL }}
+
+      # Build module.zip
+      - name: Create Module Archive
+        if: steps.check_tag.outputs.should_release == 'true'
+        run: |
+          zip --recurse-paths ./module.zip module.json readme.md LICENSE languages/ scripts/ styles/
+
+      - name: Create GitHub Release
+        if: steps.check_tag.outputs.should_release == 'true'
+        uses: ncipollo/release-action@v1
+        with:
+          tag: v${{ steps.get_version.outputs.version }}
+          name: Release v${{ steps.get_version.outputs.version }}
+          bodyFile: CHANGELOG.md
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: './module.json, ./module.zip'
+
+  test-release:
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.test == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Validate module.json version
+        run: |
+          VERSION=$(node -p 'require("./module.json").version || ""')
+          if [ -z "$VERSION" ]; then
+            echo "module.json must contain a version before releasing."
+            exit 1
+          fi
+          echo "Found module.json version $VERSION"
+      - name: Check whether tag already exists
+        run: |
+          VERSION=$(node -p 'require("./module.json").version')
+          if git rev-parse "refs/tags/v$VERSION" >/dev/null 2>&1; then
+            echo "Tag v$VERSION already exists"
+          else
+            echo "Tag v$VERSION does not exist yet"
+          fi

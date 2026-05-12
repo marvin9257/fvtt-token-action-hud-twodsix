@@ -11,16 +11,15 @@
   ],
   "url": "https://github.com/marvin9257/fvtt-token-action-hud-twodsix",
   "flags": {},
-  "version": "1.5.3",
+  "version": "1.6.0",
   "compatibility": {
     "minimum": "11",
-    "verified": "13.346"
+    "verified": "14.361"
   },
   "esmodules": [
     "./scripts/init.js"
   ],
-  "scripts": [
-  ],
+  "scripts": [],
   "styles": [
     "./styles/tah-template-style.css"
   ],
@@ -60,7 +59,7 @@
         "compatibility": [
           {
             "minimum": "4.20.0",
-            "verified": "6.0.6"
+            "verified": "7.2.2"
           }
         ]
       }
@@ -73,7 +72,7 @@
           {
             "minimum": "2.0",
             "maximum": "2.9",
-            "verified": "2.0.16"
+            "verified": "2.1.1"
           }
         ]
       }
@@ -84,8 +83,8 @@
     }
   },
   "socket": false,
-  "manifest": "https://raw.githubusercontent.com/marvin9257/fvtt-token-action-hud-twodsix/v1.5.3/module.json",
-  "download": "https://github.com/marvin9257/fvtt-token-action-hud-twodsix/releases/download/v1.5.3/module.zip",
+  "manifest": "#{MANIFEST}#",
+  "download": "#{DOWNLOAD}#",
   "readme": "https://github.com/marvin9257/fvtt-token-action-hud-twodsix#readme",
   "protected": false,
   "coreTranslation": false,
