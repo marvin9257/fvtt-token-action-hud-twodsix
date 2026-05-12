@@ -40,6 +40,10 @@ jobs:
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
+      - name: Validate module.json URLs match module version
+        run: |
+          node -e 'const m=require("./module.json"); const v=m.version; const expectedManifest=`https://raw.githubusercontent.com/marvin9257/fvtt-token-action-hud-twodsix/v${v}/module.json`; const expectedDownload=`https://github.com/marvin9257/fvtt-token-action-hud-twodsix/releases/download/v${v}/module.zip`; if (!v || !m.manifest || !m.download) { console.error("module.json must contain version, manifest, and download"); process.exit(1); } if (m.manifest!==expectedManifest) { console.error(`manifest mismatch. expected ${expectedManifest} but got ${m.manifest}`); process.exit(1); } if (m.download!==expectedDownload) { console.error(`download mismatch. expected ${expectedDownload} but got ${m.download}`); process.exit(1); }'
+
       - name: Check whether this version is already released
         id: check_tag
         run: |
@@ -49,24 +53,6 @@ jobs:
           else
             echo "should_release=true" >> $GITHUB_OUTPUT
           fi
-
-      # Set manifest and download URLs for this release
-      - name: Set manifest and download URLs
-        if: steps.check_tag.outputs.should_release == 'true'
-        id: set_urls
-        run: |
-          echo "MANIFEST_URL=https://github.com/${{ github.repository }}/releases/latest/download/module.json" >> $GITHUB_ENV
-          echo "DOWNLOAD_URL=https://github.com/${{ github.repository }}/releases/download/v${{ steps.get_version.outputs.version }}/module.zip" >> $GITHUB_ENV
-
-      # Replace tokens in module.json
-      - name: Update module.json with release URLs
-        if: steps.check_tag.outputs.should_release == 'true'
-        uses: cschleiden/replace-tokens@v1
-        with:
-          files: 'module.json'
-        env:
-          MANIFEST: ${{ env.MANIFEST_URL }}
-          DOWNLOAD: ${{ env.DOWNLOAD_URL }}
 
       # Build module.zip
       - name: Create Module Archive
@@ -104,6 +90,9 @@ jobs:
             exit 1
           fi
           echo "Found module.json version $VERSION"
+      - name: Validate module.json URLs match module version
+        run: |
+          node -e 'const m=require("./module.json"); const v=m.version; const expectedManifest=`https://raw.githubusercontent.com/marvin9257/fvtt-token-action-hud-twodsix/v${v}/module.json`; const expectedDownload=`https://github.com/marvin9257/fvtt-token-action-hud-twodsix/releases/download/v${v}/module.zip`; if (!v || !m.manifest || !m.download) { console.error("module.json must contain version, manifest, and download"); process.exit(1); } if (m.manifest!==expectedManifest) { console.error(`manifest mismatch. expected ${expectedManifest} but got ${m.manifest}`); process.exit(1); } if (m.download!==expectedDownload) { console.error(`download mismatch. expected ${expectedDownload} but got ${m.download}`); process.exit(1); }'
       - name: Check whether tag already exists
         run: |
           VERSION=$(node -p 'require("./module.json").version')

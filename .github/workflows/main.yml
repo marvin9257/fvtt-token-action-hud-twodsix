@@ -10,10 +10,6 @@ env:
   # otherwise FoundryVTT won't be able to perform this check.
   latest_manifest_url: "https://github.com/${{github.repository}}/releases/latest/download/module.json"
 
-  # The URL to the module archive associated with the module release being
-  # processed by this workflow.
-  release_module_url: "https://github.com/${{github.repository}}/releases/download/${{github.event.release.tag_name}}/module.zip"
-
 on: 
   # Only run this workflow when a release is published.
   # To modify this workflow when other events occur, see:
@@ -37,33 +33,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # Extract version embedded in the tag.
-      # This step expects the tag to be one of the following formats:
-      #   - "v<major>.<minor>.<patch>" (e.g., "v1.2.3")
-      #   - "<major>.<minor>.<patch>"  (e.g., "1.2.3")
-      #
-      # The version will be used by later steps to fill in the value for the
-      # "version" key required for a valid module manifest.
-      - name: Extract Version From Tag
-        id: get_version
-        uses: battila7/get-version-action@v2
-
-      # Modify "module.json" with values specific to the release.
-      # Since the values for the "version" and "url" keys aren't known ahead of
-      # time, the manifest file in the repository is updated with these values.
-      #
-      # While this does modify the manifest file in-place, the changes are not
-      # commited to the repository, and only exist in the action's filesystem.
-      - name: Modify Module Manifest With Release-Specific Values
-        id: sub_manifest_link_version
-        uses: cschleiden/replace-tokens@v1
-        with:
-          files: 'module.json'
-        env:
-          VERSION: ${{steps.get_version.outputs.version-without-v}}
-          URL: ${{ env.project_url }}
-          MANIFEST: ${{ env.latest_manifest_url }}
-          DOWNLOAD: ${{ env.release_module_url }}
+      - name: Verify module.json has concrete manifest and download URLs
+        run: |
+          node -e 'const m=require("./module.json"); const v=m.version; const expectedManifest=`https://raw.githubusercontent.com/marvin9257/fvtt-token-action-hud-twodsix/v${v}/module.json`; const expectedDownload=`https://github.com/marvin9257/fvtt-token-action-hud-twodsix/releases/download/v${v}/module.zip`; if (!v || !m.manifest || !m.download || m.manifest.includes("#{") || m.download.includes("#{")) { console.error("module.json must contain concrete version/manifest/download values before release"); process.exit(1); } if (m.manifest!==expectedManifest) { console.error(`manifest mismatch. expected ${expectedManifest} but got ${m.manifest}`); process.exit(1); } if (m.download!==expectedDownload) { console.error(`download mismatch. expected ${expectedDownload} but got ${m.download}`); process.exit(1); }'
 
       # Create a "module.zip" archive containing all the module's required files.
       # If you have other directories or files that will need to be added to
